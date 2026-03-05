@@ -1,4 +1,4 @@
-```markdown
+
 # Minecraft Purple Agent with NVIDIA Cosmos Reason2 Integration
 
 This repository contains a modified **MCU Purple Agent Baseline** for the  
@@ -307,6 +307,6 @@ Vivek Sahukar
 Arizona State University
 vsahukar@asu.edu
 
-```
+
 
 
