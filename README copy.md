@@ -96,7 +96,7 @@ The upstream NVIDIA cosmos-reason2 repository is NOT bundled here and must be in
 
 ⸻
 
-🛠 Installation
+# 🛠 Installation
 
 1️⃣ Clone This Repository
 
@@ -121,7 +121,7 @@ uv sync
 
 ⸻
 
-▶️ Reproducing the Reported Run
+# ▶️ Reproducing the Reported Run
 
 Step 1: Start Green Agent (Evaluation Server)
 
@@ -144,7 +144,7 @@ uv run python test_evaluation.py test_scenario.toml
 
 ⸻
 
-📊 Evaluation Results (Motion Category)
+# 📊 Evaluation Results (Motion Category)
 
 🔵 With Cosmos Reason2 Integrated
 
@@ -165,7 +165,7 @@ Material Selection and Usage: 6.75
 
 ⸻
 
-🔬 Key Insight
+# 🔬 Key Insight
 
 Motion tasks are primarily low-level control tasks.
 
@@ -181,7 +181,7 @@ Future work will evaluate these higher-level task categories.
 
 ⸻
 
-🌐 A2A Protocol Compliance
+# 🌐 A2A Protocol Compliance
 
 This agent runs an A2A-compliant HTTP server with:
 	•	Agent Card endpoint:
@@ -192,13 +192,13 @@ This agent runs an A2A-compliant HTTP server with:
 
 ⸻
 
-🐳 Docker Support
+# 🐳 Docker Support
 
 A Dockerfile is included in purple_agent/ for containerized deployment.
 
 ⸻
 
-🧪 Reproducibility
+# 🧪 Reproducibility
 
 See:
 
@@ -216,7 +216,7 @@ This repository intentionally excludes:
 
 ⸻
 
-🙏 Acknowledgements
+# 🙏 Acknowledgements
 
 This work builds upon the following open-source repositories:
 
@@ -232,7 +232,7 @@ We thank the original authors for providing the baseline infrastructure.
 
 ⸻
 
-🏆 NVIDIA Cosmos Cookoff Submission
+# 🏆 NVIDIA Cosmos Cookoff Submission
 
 This project demonstrates structured visual reasoning integration using
 NVIDIA Cosmos Reason2 inside a multi-agent Minecraft evaluation framework.
@@ -245,7 +245,7 @@ It highlights:
 
 ⸻
 
-📄 License
+# 📄 License
 
 MIT License
 
@@ -254,19 +254,8 @@ https://github.com/NVIDIA/cosmos-reason2
 
 ⸻
 
-👤 Author
+# 👤 Author
 
 Vivek Sahukar
 Arizona State University
 vsahukar@asu.edu
-
----
-
-This version is:
-
-✅ Honest about results  
-✅ Professionally structured  
-✅ Properly credited  
-✅ Competition-ready  
-✅ Clear about insight  
-✅ Reproducible  
