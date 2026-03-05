@@ -1,0 +1,14 @@
+# === Canonical Reproduction Steps ===
+
+# 0) From repository root:
+# cd minecraft-cosmos-reason2-agent
+
+# 1) Start green VLM server (from purple_agent directory)
+cd purple_agent
+VLM_EVAL_BACKEND=ollama VLM_EVAL_MODEL=qwen2.5vl:7b uv run python src/server.py --host 0.0.0.0 --port 9009
+
+# 2) In a second terminal (still inside purple_agent)
+python -m src.server.app --agent rocket1 2>&1 | tee /tmp/purple.log
+
+# 3) Run evaluation (inside purple_agent)
+uv run python test_evaluation.py test_scenario.toml
