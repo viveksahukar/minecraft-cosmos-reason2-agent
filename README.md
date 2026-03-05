@@ -1,47 +1,55 @@
-
 # Minecraft Purple Agent with NVIDIA Cosmos Reason2 Integration
 
-This repository contains a modified **MCU Purple Agent Baseline** for the  
-**AgentX / AgentBeats Minecraft (MineStudio) environment**, enhanced with  
-**NVIDIA Cosmos Reason2 visual reasoning**.
+This repository contains a modified **MCU Purple Agent Baseline** for the **AgentX / AgentBeats Minecraft (MineStudio) Phase 2 environment**, enhanced with **NVIDIA Cosmos Reason2 visual reasoning**.
 
 This project was developed for the **NVIDIA Cosmos Cookoff**.
 
 ---
 
-# 🧠 What This Project Does
+## 🧠 What This Project Does
 
-This agent integrates **Cosmos Reason2** into the Purple perception pipeline to enable structured visual reasoning before action selection.
+AgentX–AgentBeats is a multi-agent Minecraft evaluation platform.
 
-Pipeline:
+* **Green agent**: Evaluates and scores behavior across structured task categories like motion, crafting, and survival.
+* **Purple agent**: The acting policy that observes the environment and outputs actions.
 
-Minecraft Frame  
-→ Cosmos Reason2  
-→ Structured JSON (Objects / Mobs / Threats / Resources)  
-→ Sanitization  
-→ Purple Policy (Rocket1 / VPT / etc.)  
-→ Action → Green Evaluator  
+This project integrates **Cosmos Reason2** into the Purple agent's perception pipeline to enable structured visual reasoning before action selection.
 
-Unlike a noop baseline, this agent produces structured world interpretations prior to selecting actions.
+**The Pipeline:**
+`Minecraft Frame` → `Cosmos Reason2` → `Structured JSON (Objects / Mobs / Threats / Resources)` → `Sanitization` → `Purple Policy (Rocket1 / VPT / etc.)` → `Action` → `Green Evaluator`
 
----
-
-# 🚀 Features
-
-- A2A-compliant Purple Agent server
-- Cosmos Reason2 integration into perception
-- Structured JSON extraction + sanitization
-- Compatible with MCU evaluator
-- Compatible with AgentBeats Green agent
-- Ollama-based free VLM evaluation backend
-- Reproducible run scripts and canonical commands
+Unlike a no-op baseline, this agent produces structured world interpretations prior to selecting actions.
 
 ---
 
-# 📦 Repository Structure
+## 📺 Video Demo
 
-```
+[![Nvidia Cosmos Cookoff Demo](https://img.youtube.com/vi/TkYpKayNgPU/0.jpg)](https://youtu.be/TkYpKayNgPU)
 
+**[Watch the Demo on YouTube](https://youtu.be/TkYpKayNgPU)**
+
+In this video, I walk through:
+* The integration of NVIDIA Cosmos Reason2 as a structured reasoning layer [01:01].
+* A code walkthrough of the perception layer, including the Reason2 client and worker [01:54].
+* The evaluation process using the Green and Purple agent servers [02:55].
+* A comparison of results between the baseline and the Reason2-integrated agent [03:22].
+
+---
+
+## 🚀 Features
+
+* A2A-compliant Purple Agent server
+* Cosmos Reason2 integration into perception
+* Structured JSON extraction and sanitization
+* Compatible with MCU evaluator and AgentBeats Green agent
+* Ollama-based free VLM evaluation backend
+* Reproducible run commands and baseline comparison included
+
+---
+
+## 📦 Repository Structure
+
+```text
 minecraft-cosmos-reason2-agent/
 │
 ├── purple_agent/          # Modified Purple agent (core implementation)
@@ -52,260 +60,169 @@ minecraft-cosmos-reason2-agent/
 
 ```
 
-Within `purple_agent/`:
+**Within `purple_agent/src/`:**
 
-```
-
-src/
+```text
 ├── agent/
 ├── perception/
-│    ├── reason2_client.py
-│    └── sanitizer_adapter.py
+│   ├── reason2_client.py
+│   ├── reason2_worker.py
+│   └── sanitizer_adapter.py
 ├── config/
-│    └── reason2_config.py
+│   └── reason2_config.py
 ├── protocol/
 └── server/
 
-````
+```
 
 ---
 
-# 🔍 Where Cosmos Reason2 Is Integrated
+## 🔍 Where Cosmos Reason2 Is Integrated
 
-Key files:
+Key files for the integration:
 
-- `purple_agent/src/perception/reason2_client.py`
-- `purple_agent/src/perception/sanitizer_adapter.py`
-- `purple_agent/src/config/reason2_config.py`
+* `purple_agent/src/perception/reason2_client.py`: Invokes Cosmos Reason2 and extracts structured JSON [02:06].
+* `purple_agent/src/perception/reason2_worker.py`: Manages inference execution within the perception loop [02:27].
+* `purple_agent/src/perception/sanitizer_adapter.py`: Ensures consistent, clean output for the policy [02:37].
+* `purple_agent/src/config/reason2_config.py`
 
-Reason2 is configured using:
+Reason2 is configured via environment variables:
 
 ```python
 COSMOS_REPO = os.environ.get("COSMOS_REPO", "/path/to/cosmos-reason2")
-````
 
-The upstream NVIDIA `cosmos-reason2` repository is NOT bundled here and must be installed separately.
-
----
-
-# ⚙️ Requirements
-
-* Python ≥ 3.10 (3.11 recommended)
-* Linux / WSL recommended
-* CUDA GPU recommended (CPU works but slower)
-* `uv` package manager
-* Ollama (for local VLM evaluation backend)
-* NVIDIA Cosmos Reason2 (installed separately)
-
----
-
-# 🛠 Installation
-
-## 1️⃣ Clone This Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/minecraft-cosmos-reason2-agent.git
-cd minecraft-cosmos-reason2-agent
 ```
 
-## 2️⃣ Install Cosmos Reason2 (Required)
+*Note: The upstream NVIDIA cosmos-reason2 repository must be installed separately.*
+
+---
+
+## ⚙️ Requirements
+
+* **Python**: ≥ 3.10 (3.11 recommended)
+* **OS**: Linux / WSL recommended
+* **Hardware**: CUDA GPU recommended (CPU supported but slower)
+* **Tools**: `uv` package manager, Ollama (for local VLM evaluation)
+* **Model**: NVIDIA Cosmos Reason2
+
+---
+
+## 🛠 Installation
+
+### 1. Clone This Repository
 
 ```bash
-git clone https://github.com/NVIDIA/cosmos-reason2.git /path/to/cosmos-reason2
+git clone [https://github.com/viveksahukar/minecraft-cosmos-reason2-agent.git](https://github.com/viveksahukar/minecraft-cosmos-reason2-agent.git)
+cd minecraft-cosmos-reason2-agent
+
+```
+
+### 2. Install Cosmos Reason2 (Required)
+
+```bash
+git clone [https://github.com/NVIDIA/cosmos-reason2.git](https://github.com/NVIDIA/cosmos-reason2.git) /path/to/cosmos-reason2
 cd /path/to/cosmos-reason2
 pip install -e .
-```
-
-Export the path:
-
-```bash
 export COSMOS_REPO=/path/to/cosmos-reason2
+
 ```
 
-## 3️⃣ Install Purple Agent Dependencies
+### 3. Install Purple Agent Dependencies
 
 ```bash
 cd purple_agent
 uv sync
+
 ```
 
 ---
 
-# ▶️ Reproducing the Reported Run
+## ▶️ Running the System
 
-All canonical commands are stored in:
-
-```
-logs_example/exact_command.txt
-```
-
-Below is the full reproduction flow.
-
----
-
-## Step 1: Start Green Agent (Ollama Backend)
-
-From inside `purple_agent/`:
+### Step 1: Start Green Agent (Evaluation Server)
 
 ```bash
 VLM_EVAL_BACKEND=ollama \
 VLM_EVAL_MODEL=qwen2.5vl:7b \
 uv run python src/server.py --host 0.0.0.0 --port 9009
+
 ```
 
----
-
-## Step 2: Run Purple Agent
-
-In a second terminal:
+### Step 2: Run Purple Agent
 
 ```bash
-cd purple_agent
-python -m src.server.app --agent rocket1 2>&1 | tee /tmp/purple.log
+python -m src.server.app --agent rocket1
+
 ```
 
----
-
-## Step 3: Run Evaluation
+### Step 3: Run Evaluation
 
 ```bash
-cd purple_agent
 uv run python test_evaluation.py test_scenario.toml
+
 ```
 
 ---
 
-# 📊 Evaluation Results
+## 📊 Evaluation Results (Motion Category)
 
-Primary evaluation run:
+| Metric | 🔵 With Cosmos Reason2 | 🟣 Baseline (No Reason2) |
+| --- | --- | --- |
+| **Total Score** | **29.00 / 40.0** | **30.50 / 40.0** |
+| Action Control | 9.25 | 9.25 |
+| Error Recognition/Correction | 2.5 | 6.75 |
+| Task Completion Efficiency | 9.0 | 9.0 |
+| Material Selection/Usage | 6.75 | 6.75 |
 
-* non_noop_rate: 1.000
-* Stable total score across repeated runs: **30.5 / 40**
-* Motion task `sim_score`: 0.0 (current limitation)
+### 🔬 Key Insight
 
-Reason2 integration produces non-trivial structured behavior compared to noop baseline.
+Motion tasks are primarily low-level control tasks. Adding high-level semantic reasoning did not significantly improve motion performance and may introduce abstraction latency that affects error recognition metrics. Structured reasoning is likely more beneficial for:
 
----
-
-# 🌐 A2A Protocol Compliance
-
-This agent runs an A2A-compliant HTTP server with:
-
-* Agent Card endpoint:
-  `/.well-known/agent-card.json`
-* `init` message handling
-* `obs` message handling
-* Evaluator-safe `action` responses
-
-### Example `init`
-
-```json
-{
-  "type": "init",
-  "text": "build a house"
-}
-```
-
-Response:
-
-```json
-{
-  "type": "ack",
-  "success": true,
-  "message": "Initialization success with task: build a house"
-}
-```
-
-### Example `obs`
-
-```json
-{
-  "type": "obs",
-  "step": 0,
-  "obs": "<base64-encoded image>"
-}
-```
-
-Response:
-
-```json
-{
-  "type": "action",
-  "buttons": [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "camera": [0.0, 0.0]
-}
-```
-
-Action contract:
-
-* `buttons`: length 20 (0/1)
-* `camera`: length 2 floats
+* Crafting & Survival tasks
+* Multi-step planning
+* Long-horizon objectives
 
 ---
 
-# 🐳 Docker Support
+## 🌐 A2A Protocol Compliance
 
-A Dockerfile is included in `purple_agent/` for containerized deployment.
+This agent runs an A2A-compliant HTTP server featuring:
+
+* Agent Card endpoint: `/.well-known/agent-card.json`
+* `init` and `obs` message handling
+* Evaluator-safe action responses
 
 ---
 
-# 🧪 Reproducibility
+## 🧪 Reproducibility
 
-See:
-
-```
-logs_example/
-```
-
-Contains:
+See `logs_example/` for:
 
 * Canonical reproduction commands
 * Example log references
 
-This repository intentionally excludes:
+---
 
-* Model weights
-* Virtual environments
-* Upstream NVIDIA repository
-* Hardcoded local paths
+## 🙏 Acknowledgements
+
+This work builds upon:
+
+* **Green Agent**: [MCU-AgentBeats](https://github.com/KWSMooBang/MCU-AgentBeats)
+* **Purple Agent Baseline**: [MCU-Purple-Baseline](https://github.com/KWSMooBang/MCU-Purple-Baseline-Deterministic)
 
 ---
 
-# 🔐 Notes
+## 🏆 NVIDIA Cosmos Cookoff Submission
 
-* Cosmos Reason2 must be installed separately.
-* Performance depends on VLM backend quality.
-* Motion tasks currently underperform (future improvement area).
+This project demonstrates structured visual reasoning integration using **NVIDIA Cosmos Reason2** inside a multi-agent Minecraft evaluation framework.
 
----
+## 📄 License
 
-# 🏆 NVIDIA Cosmos Cookoff Submission
+MIT License. NVIDIA Cosmos Reason2 is governed by its own [license](https://github.com/NVIDIA/cosmos-reason2).
 
-This project demonstrates structured visual reasoning integration using
-NVIDIA Cosmos Reason2 inside a multi-agent Minecraft evaluation environment.
+## 👤 Author
 
-It highlights:
-
-* Perception → reasoning → action loop
-* Structured JSON reasoning prior to policy execution
-* A2A-compatible deployment
-
----
-
-# 📄 License
-
-MIT License
-
-Note: NVIDIA Cosmos Reason2 is governed by its own license:
-[https://github.com/NVIDIA/cosmos-reason2](https://github.com/NVIDIA/cosmos-reason2)
-
----
-
-# 👤 Author
-
-Vivek Sahukar
+**Vivek Sahukar** 
 Arizona State University
 vsahukar@asu.edu
-
-
 
